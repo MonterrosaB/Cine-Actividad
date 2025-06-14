@@ -1,39 +1,36 @@
 import nmailer from "nodemailer";
-import { config } from "../config.js"
+import { config } from "../config.js";
 
 const transporter = nmailer.createTransport({
-    host : "smtp.gmail.com",
-    port : 465,
-    auth : {
-        user : config.MAIL.USER,
-        pass : config.MAIL.PASSWORD 
-    },/*
-         tls: {
-            rejectUnauthorized: false, // ⚠️ Solo usar en desarrollo
-        },*/
-})
+  host: "smtp.gmail.com",
+  port: 465,
+  auth: {
+    user: config.MAIL.USER,
+    pass: config.MAIL.PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false, // ⚠️ Solo usar en desarrollo
+  },
+});
 
 const sendEmail = async (to, subject, body, html) => {
-    try {
-        const info = await transporter.sendMail({
-            from : config.MAIL.USER,
-            to,
-            subject,
-            body,
-            html,
-        })
+  try {
+    const info = await transporter.sendMail({
+      from: config.MAIL.USER,
+      to,
+      subject,
+      body,
+      html,
+    });
 
-        return info;
-    } catch (error) {
-        console.log(error);
-        
-    }
+    return info;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-
-
 const HTMLRecoveryEmail = (code) => {
-    return `
+  return `
         <!DOCTYPE html>
         <html>
         <head>
@@ -117,5 +114,4 @@ const HTMLRecoveryEmail = (code) => {
     `;
 };
 
-
-export {sendEmail, HTMLRecoveryEmail};
+export { sendEmail, HTMLRecoveryEmail };
